@@ -59,6 +59,8 @@
       function calculate_Tin_from_qin (qin, Tmltk) &
                result(Tin)
 
+      use, intrinsic :: ieee_arithmetic
+
       real (kind=dbl_kind), intent(in) :: &
          qin   , &              ! enthalpy
          Tmltk                  ! melting temperature at one level
@@ -77,7 +79,7 @@
          aa1 = cp_ice
          bb1 = (cp_ocn-cp_ice)*Tmltk - qin/rhoi - Lfresh
          cc1 = Lfresh * Tmltk
-         Tin =  min((-bb1 - sqrt(bb1*bb1 - c4*aa1*cc1)) /  &
+         Tin =  ieee_min_num((-bb1 - sqrt(bb1*bb1 - c4*aa1*cc1)) /  &
                          (c2*aa1),Tmltk)
 
       else                ! fresh ice
